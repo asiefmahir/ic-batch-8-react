@@ -1,5 +1,8 @@
 .App {
-  text-align: center;
+  text-align: left;
+}
+.bio-data {
+  background: aqua;
 }
 
 .App-logo {
