@@ -1,43 +1,33 @@
 import "./App.css";
 import BioData from "./components/BioData";
+import InterestSection from "./components/InterestSection";
+import PersonalInfo from "./components/PersonalInfo";
+import SkillSection from "./components/SkillSection";
+
+import {persons} from './data/persons'
 
 function App() {
 	return (
 		<div className="App">
-			<BioData 
-        name="Mahir Asief"
-        age="26"
-        gender="Male"
-        email="asiefmahir1@gmail.com"
-        phone="+88 01713121212"
-        address="Rajshahi"
-        country="BD"
-        skills={['React', 'Redux', 'JS']}
-        interests={['Sports', 'theme Development']}
-      />
-			<hr />
-			<BioData 
-        name="Rashed Vai"
-        age="20"
-        gender="Male"
-        email="rashed@gmail.com"
-        phone="+91 9876543210"
-        address="Dhaka"
-        country="BD"
-        skills={['React', 'Redux', 'NodeJs', 'JS', 'WP']}
-        interests={['Music', 'Plugin Development']}
-      />
-			<hr />
-			<BioData 
-        name="Ethila"
-        age="22"
-        gender="Female"
-        email="ethila@gmail.com"
-        address="Khulna"
-        country="BD"
-        skills={['React', 'Redux', 'NodeJs', 'JS', 'WP', 'Python', 'Django']}
-        interests={['Music', 'Plugin Development', 'AI']}
-      />
+      {persons.map(person => (
+        <BioData>
+          <PersonalInfo
+            name={person.name}
+            age={person.age}
+            gender={person.gender}
+            email={person.email}
+            phone={person.phone}
+            address={person.address}
+            country={person.country}
+          />
+          <SkillSection
+            skills={person.skills}
+          />
+          <InterestSection 
+            interests={person.interests}
+          />
+      </BioData>
+      ))}
 		</div>
 	);
 }
