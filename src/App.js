@@ -65,6 +65,14 @@ import { useState } from "react";
 const App = () => {
 	const [noteTitle, setNoteTitle] = useState("");
 	const [notes, setNotes] = useState([]);
+	const [editMode, setEditMode] = useState(false);
+	const [editableNote, setEditableNote] = useState(null);
+	// null -> Object
+	// {} -> {id: 1, title: "My First Note"}
+	// {} === {}
+	// Data type of Editable Note = Object
+
+	// editMode = Boolean
 	/**
 	 * note = {
 	 * 		id: 1,
@@ -99,21 +107,58 @@ const App = () => {
 		// notes = [{id: 1, title: note-1}, {id: 2, title: note-2}]
 	};
 
+	const editHandler = (note) => {
+		setEditMode(true);
+		setNoteTitle(note.title);
+		setEditableNote(note);
+	};
+
+	const updateHandler = (event) => {
+		event.preventDefault();
+
+		if (!noteTitle.trim()) {
+			return alert("Please Enter Note Title");
+		}
+		const updatedNotesArray = notes.map((note) => {
+			if (note.id === editableNote.id) {
+				// 3 === 2
+				// 2 === 2
+				// 1 === 2
+				return {
+					...note,
+					title: noteTitle,
+				};
+
+				// {id: 2, title: "note 222"}
+			}
+
+			return note; // {id: 1, title: "note 1"} // {id: 3, title: 'note 3}
+		});
+		// updatedNotesArray = [{id: 1, title: "note 1"}, {id: 2, title: "note 222"}, {id: 3, title: 'note 3}]
+
+		setNotes(updatedNotesArray);
+		setEditMode(false);
+		setEditableNote(null);
+		setNoteTitle("");
+	};
+
 	return (
 		<div className="App">
-			<form onSubmit={createHandler}>
+			<form onSubmit={editMode ? updateHandler : createHandler}>
 				<input
 					type="text"
 					value={noteTitle}
 					onChange={(event) => setNoteTitle(event.target.value)}
 				/>
-				<button type="submit">Add Note</button>
+				<button type="submit">
+					{editMode ? "Update Note" : "Add Note"}
+				</button>
 			</form>
 			<ul className="note-list">
 				{notes.map((note) => (
 					<li key={note.id}>
 						<span>{note.title}</span>
-						<button>Edit</button>
+						<button onClick={() => editHandler(note)}>Edit</button>
 						<button onClick={() => removeHandler(note.id)}>
 							Remove
 						</button>
