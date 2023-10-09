@@ -13,3 +13,8 @@ function child (a, b) {  // PersonalInfo, Skills,
 }
 
 grandParent()
+
+const numbers = [10, 20, 30, 40]
+
+const dividedByTwoList = numbers.map((num) => num / 2);
+console.log(dividedByTwoList); // [5, 10, 15, 20]
