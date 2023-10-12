@@ -1,170 +1,176 @@
-import "./App.css";
 import { useState } from "react";
-
-// function App() {
-// 	console.log("I am being Re-Rendered");
-// 	// State-> Dynamic Data in React
-// 	// let counter = 10;
-// 	const [dynamicCounter, setDynamicCounter] = useState(200);
-// 	const [counter2, setCounter2] = useState(100);
-
-// 	// dynamicCounter++
-// 	// console.log(janiNah, "janiNah");
-
-// 	const increaseHandler = (payload) => {
-// 		setDynamicCounter(dynamicCounter + payload); //  1 + 1 // 50
-// 		// setDynamicCounter(200 + 1); setDynamicCounter(201)
-// 		// 201
-// 		// dynamicCounter = 201
-
-// 		// setDynamicCounter(201 + 1); setDynamicCounter(202)
-// 		// dynamicCounter = 202
-// 		// Expression/ Value -> Expression -> Value -> dynamicCounter = Value
-// 		// counter++;
-// 		// console.log(counter);
-// 	};
-
-// 	const decreaseHandler = (payload) => {
-// 		setDynamicCounter(dynamicCounter - payload);
-// 		// counter--;
-// 		// console.log(counter);
-// 	};
-
-// 	const increaseHandler2 = () => {
-// 		setCounter2(counter2 + 1);
-// 	};
-
-// 	const decreaseHandler2 = () => {
-// 		setCounter2(counter2 - 1);
-// 	};
-
-// 	return (
-// 		<div className="App">
-// 			<h2>The current value of the counter is {dynamicCounter}</h2>
-// 			<button onClick={() => increaseHandler(1)}>Increase By 1</button>
-// 			<button onClick={() => decreaseHandler(1)}>Decrease By 1</button>
-// 			<button onClick={() => increaseHandler(10)}>Increase By 10</button>
-// 			<button onClick={() => decreaseHandler(5)}>Decrease By 5</button>
-
-// 			<hr />
-// 			<h2>The current value of the counter is {counter2}</h2>
-// 			<button onClick={increaseHandler2}>Increase By 1</button>
-// 			<button onClick={decreaseHandler2}>Decrease By 1</button>
-// 		</div>
-// 	);
-// }
-
-// App()
-/**
- * 3 rules to be a component
- * 1) Component must be a Function
- * 2) It should return 'something'
- * 3) This 'something' should be some html-ish code -> JSX
- */
+import "./App.css";
 
 const App = () => {
-	const [noteTitle, setNoteTitle] = useState("");
-	const [notes, setNotes] = useState([]);
+	const [studentName, setStudentName] = useState("");
+	const [students, setStudents] = useState([]);
 	const [editMode, setEditMode] = useState(false);
-	const [editableNote, setEditableNote] = useState(null);
-	// null -> Object
-	// {} -> {id: 1, title: "My First Note"}
-	// {} === {}
-	// Data type of Editable Note = Object
+	const [editableStudent, setEditableStudent] = useState(null);
 
-	// editMode = Boolean
-	/**
-	 * note = {
-	 * 		id: 1,
-	 * 		title: "My First Note"
-	 *
-	 * }
-	 */
+	// derived State
+	const presentList = students.filter(
+		(student) => student.isPresent === true,
+	);
+	const absentList = students.filter(
+		(student) => student.isPresent === false,
+	);
 
-	const createHandler = (event) => {
-		event.preventDefault();
-		if (!noteTitle) {
-			return alert("Please Enter Note Title");
-		}
-		const newNote = {
+	// const [presentList, setPresentList] = useState([]);
+	// const [absentList, setAbsentList] = useState([]);
+
+	const createHandler = () => {
+		const newStudent = {
 			id: Date.now() + "",
-			title: noteTitle,
+			name: studentName,
+			isPresent: undefined,
 		};
 
-		setNotes([...notes, newNote]); //
-		// notes = [...notes, newNote]
-		setNoteTitle("");
-		//noteTitle = ""
-	};
-	const removeHandler = (noteId) => {
-		// 2
-		const newNotes = notes.filter((note) => note.id !== noteId);
-		// 							(({id: 1, title: note-1}) => 1 !== 2)
-		//							(({id: 2, title: note-2}) => 2 !== 2)
-
-		setNotes(newNotes);
-		// notes = [{id: 1, title: note-1}, {id: 2, title: note-2}, {id: 3, title: note-3}] --> Removed/ Falaya Dibe
-		// notes = [{id: 1, title: note-1}, {id: 2, title: note-2}]
+		setStudents([...students, newStudent]);
+		setStudentName("");
 	};
 
-	const editHandler = (note) => {
+	const editHandler = (student) => {
 		setEditMode(true);
-		setNoteTitle(note.title);
-		setEditableNote(note);
+		setStudentName(student.name);
+		setEditableStudent(student);
 	};
 
-	const updateHandler = (event) => {
-		event.preventDefault();
-
-		if (!noteTitle.trim()) {
-			return alert("Please Enter Note Title");
-		}
-		const updatedNotesArray = notes.map((note) => {
-			if (note.id === editableNote.id) {
-				// 3 === 2
-				// 2 === 2
-				// 1 === 2
-				return {
-					...note,
-					title: noteTitle,
-				};
-
-				// {id: 2, title: "note 222"}
+	const updateHandler = () => {
+		const updatedStudentList = students.map((student) => {
+			if (student.id === editableStudent.id) {
+				return { ...student, name: studentName };
 			}
-
-			return note; // {id: 1, title: "note 1"} // {id: 3, title: 'note 3}
+			return student;
 		});
-		// updatedNotesArray = [{id: 1, title: "note 1"}, {id: 2, title: "note 222"}, {id: 3, title: 'note 3}]
 
-		setNotes(updatedNotesArray);
+		setStudents(updatedStudentList);
 		setEditMode(false);
-		setEditableNote(null);
-		setNoteTitle("");
+		setStudentName("");
+		setEditableStudent(null);
+	};
+	const removeHandler = (studentID) => {
+		const newStudentList = students.filter(
+			(student) => student.id !== studentID,
+		);
+		// 1 !== 1
+		// 2 !== 1
+		// 3 !== 1
+
+		setStudents(newStudentList);
 	};
 
+	const makePresentHandler = (student) => {
+		if (student.isPresent === true || student.isPresent === false) {
+			return alert(`The student is already in a list`);
+		}
+		const newStudentList = students.map((item) => {
+			if (item.id === student.id) {
+				if (item.id === student.id) {
+					return { ...item, isPresent: true };
+				}
+			}
+			return item;
+		});
+
+		setStudents(newStudentList);
+	};
+	const makeAbsentHandler = (student) => {
+		if (student.isPresent === true || student.isPresent === false) {
+			return alert(`The student is already in a list`);
+		}
+		const newStudentList = students.map((item) => {
+			if (item.id === student.id) {
+				return { ...item, isPresent: false };
+			}
+			return item;
+		});
+
+		setStudents(newStudentList);
+	};
+
+	const toggleHandler = (student) => {
+		const newStudentList = students.map((item) => {
+			if (item.id === student.id) {
+				return { ...item, isPresent: !item.isPresent };
+			}
+			return item;
+		});
+
+		setStudents(newStudentList);
+	};
+
+	const submitHandler = (e) => {
+		e.preventDefault();
+		if (!studentName.trim()) return;
+
+		editMode ? updateHandler() : createHandler();
+	};
 	return (
 		<div className="App">
-			<form onSubmit={editMode ? updateHandler : createHandler}>
+			<form className="student-form" onSubmit={submitHandler}>
 				<input
 					type="text"
-					value={noteTitle}
-					onChange={(event) => setNoteTitle(event.target.value)}
+					value={studentName}
+					onChange={(e) => setStudentName(e.target.value)}
 				/>
 				<button type="submit">
-					{editMode ? "Update Note" : "Add Note"}
+					{editMode ? "Update Student" : "Add Student"}
 				</button>
 			</form>
-			<ul className="note-list">
-				{notes.map((note) => (
-					<li key={note.id}>
-						<span>{note.title}</span>
-						<button onClick={() => editHandler(note)}>Edit</button>
-						<button onClick={() => removeHandler(note.id)}>
-							Remove
-						</button>
-					</li>
-				))}
-			</ul>
+			<div className="student-section">
+				<div className="list all-students">
+					<h2>All Students</h2>
+					<ul>
+						{students.map((student) => (
+							<li key={student.id}>
+								<span>{student.name}</span>
+								<button onClick={() => editHandler(student)}>
+									Edit
+								</button>
+								<button
+									onClick={() => removeHandler(student.id)}
+								>
+									Delete
+								</button>
+								<button
+									onClick={() => makePresentHandler(student)}
+								>
+									Make present
+								</button>
+								<button
+									onClick={() => makeAbsentHandler(student)}
+								>
+									Make Absent
+								</button>
+							</li>
+						))}
+					</ul>
+				</div>
+				<div className="list present-list">
+					<h2>Present Students</h2>
+					<ul>
+						{presentList.map((item) => (
+							<li key={item.id}>
+								<span>{item.name}</span>
+								<button onClick={() => toggleHandler(item)}>
+									Accidentally Added
+								</button>
+							</li>
+						))}
+					</ul>
+				</div>
+				<div className="list absent-list">
+					<h2>Absent Students</h2>
+					{absentList.map((item) => (
+						<li key={item.id}>
+							<span>{item.name}</span>
+							<button onClick={() => toggleHandler(item)}>
+								Accidentally Added
+							</button>
+						</li>
+					))}
+				</div>
+			</div>
 		</div>
 	);
 };
