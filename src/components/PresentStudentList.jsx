@@ -1,8 +1,11 @@
-import React from "react";
+import { useContext } from "react";
 
-const PresentStudentList = (props) => {
+import { StudentContext } from "../contexts/Student";
+
+const PresentStudentList = () => {
+	const { students, toggleHandler } = useContext(StudentContext);
 	// derived State
-	const presentList = props.students.filter(
+	const presentList = students.filter(
 		(student) => student.isPresent === true,
 	);
 	return (
@@ -12,7 +15,7 @@ const PresentStudentList = (props) => {
 				{presentList.map((item) => (
 					<li key={item.id}>
 						<span>{item.name}</span>
-						<button onClick={() => props.toggleHandler(item)}>
+						<button onClick={() => toggleHandler(item)}>
 							Accidentally Added
 						</button>
 					</li>
