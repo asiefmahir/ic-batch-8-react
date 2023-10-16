@@ -2,13 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
+import StudentProvider from './contexts/Student';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 // console.log(root.render);
 root.render(
   <React.StrictMode>
-    <App />
+    <StudentProvider>
+      <App />
+    </StudentProvider>
   </React.StrictMode>
 );
 

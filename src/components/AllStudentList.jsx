@@ -1,63 +1,37 @@
-const AllStudentList = (props) => {
-	const editHandler = (student) => {
-		props.setEditMode(true);
-		props.setStudentName(student.name);
-		props.setEditableStudent(student);
-	};
+import { useContext } from "react";
 
-	const removeHandler = (studentID) => {
-		const newStudentList = props.students.filter(
-			(student) => student.id !== studentID,
-		);
+import { StudentContext } from "../contexts/Student";
 
-		props.setStudents(newStudentList);
-	};
+const AllStudentList = () => {
+	const studentCtx = useContext(StudentContext);
 
-	const makePresentHandler = (student) => {
-		if (student.isPresent === true || student.isPresent === false) {
-			return alert(`The student is already in a list`);
-		}
-		const newStudentList = props.students.map((item) => {
-			if (item.id === student.id) {
-				if (item.id === student.id) {
-					return { ...item, isPresent: true };
-				}
-			}
-			return item;
-		});
-
-		props.setStudents(newStudentList);
-	};
-	const makeAbsentHandler = (student) => {
-		if (student.isPresent === true || student.isPresent === false) {
-			return alert(`The student is already in a list`);
-		}
-		const newStudentList = props.students.map((item) => {
-			if (item.id === student.id) {
-				return { ...item, isPresent: false };
-			}
-			return item;
-		});
-
-		props.setStudents(newStudentList);
-	};
 	return (
 		<div className="list all-students">
 			<h2>All Students</h2>
 			<ul>
-				{props.students.map((student) => (
+				{studentCtx.students.map((student) => (
 					<li key={student.id}>
 						<span>{student.name}</span>
-						<button onClick={() => editHandler(student)}>
+						<button onClick={() => studentCtx.editHandler(student)}>
 							Edit
 						</button>
-						<button onClick={() => removeHandler(student.id)}>
+						<button
+							onClick={() => studentCtx.removeHandler(student.id)}
+						>
 							Delete
 						</button>
-						<button onClick={() => makePresentHandler(student)}>
+						<button
+							onClick={() =>
+								studentCtx.makePresentHandler(student)
+							}
+						>
 							Make present
 						</button>
-						<button onClick={() => makeAbsentHandler(student)}>
+						<button
+							onClick={() =>
+								studentCtx.makeAbsentHandler(student)
+							}
+						>
 							Make Absent
 						</button>
 					</li>
