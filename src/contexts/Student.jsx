@@ -1,8 +1,18 @@
-import { useState, createContext } from "react";
+import { useState, useReducer, createContext } from "react";
+import { studentReducer } from "../reducers/student";
 
 export const StudentContext = createContext();
 
+const initState = {
+	studentName: "",
+	students: [],
+	editMode: false,
+	editableStudent: null,
+};
+
 const StudentProvider = ({ children }) => {
+	const [studentStates, dispatch] = useReducer(studentReducer, initState);
+
 	const [studentName, setStudentName] = useState("");
 	const [students, setStudents] = useState([]);
 	const [editMode, setEditMode] = useState(false);
@@ -96,20 +106,8 @@ const StudentProvider = ({ children }) => {
 	};
 
 	const contextValue = {
-		studentName,
-		setStudentName,
-		students,
-		setStudents,
-		editMode,
-		setEditMode,
-		editableStudent,
-		setEditableStudent,
-		submitHandler,
-		editHandler,
-		removeHandler,
-		makePresentHandler,
-		makeAbsentHandler,
-		toggleHandler,
+		studentStates,
+		dispatch,
 	};
 	return (
 		<StudentContext.Provider value={contextValue}>

@@ -4,14 +4,16 @@ import './index.css';
 import App from './App';
 import StudentProvider from './contexts/Student';
 import reportWebVitals from './reportWebVitals';
+import App2 from './App2';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 // console.log(root.render);
 root.render(
   <React.StrictMode>
-    <StudentProvider>
+    <App2 />
+    {/* <StudentProvider>
       <App />
-    </StudentProvider>
+    </StudentProvider> */}
   </React.StrictMode>
 );
 
