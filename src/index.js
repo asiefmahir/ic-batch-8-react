@@ -10,10 +10,10 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 // console.log(root.render);
 root.render(
   <React.StrictMode>
-    <App2 />
-    {/* <StudentProvider>
+    {/* <App2 /> */}
+    <StudentProvider>
       <App />
-    </StudentProvider> */}
+    </StudentProvider>
   </React.StrictMode>
 );
 
