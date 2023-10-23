@@ -3,9 +3,9 @@ import { useContext } from "react";
 import { StudentContext } from "../contexts/Student";
 
 const PresentStudentList = () => {
-	const { students, toggleHandler } = useContext(StudentContext);
+	const { studentStates, dispatch } = useContext(StudentContext);
 	// derived State
-	const presentList = students.filter(
+	const presentList = studentStates.students.filter(
 		(student) => student.isPresent === true,
 	);
 	return (
@@ -15,7 +15,18 @@ const PresentStudentList = () => {
 				{presentList.map((item) => (
 					<li key={item.id}>
 						<span>{item.name}</span>
-						<button onClick={() => toggleHandler(item)}>
+						<button
+							onClick={() => {
+								dispatch({
+									type: "UPDATE_STUDENT",
+									payload: {
+										studentID: item.id,
+										propertyName: "isPresent",
+										propertyValue: !item.isPresent,
+									},
+								});
+							}}
+						>
 							Accidentally Added
 						</button>
 					</li>

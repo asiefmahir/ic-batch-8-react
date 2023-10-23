@@ -3,17 +3,39 @@ import { useContext } from "react";
 import { StudentContext } from "../contexts/Student";
 
 const StudentForm = () => {
-	const studentCtx = useContext(StudentContext);
+	const { studentStates, dispatch } = useContext(StudentContext);
+
+	const submitHandler = (e) => {
+		e.preventDefault();
+		if (!studentStates.studentName.trim()) {
+			alert("Please provide a valid name");
+		}
+		studentStates.editMode
+			? dispatch({
+					type: "UPDATE_STUDENT",
+					payload: {
+						studentID: studentStates.editableStudent.id,
+						propertyName: "name",
+						propertyValue: studentStates.studentName,
+					},
+			  })
+			: dispatch({ type: "CREATE_STUDENT" });
+	};
 
 	return (
-		<form className="student-form" onSubmit={studentCtx.submitHandler}>
+		<form className="student-form" onSubmit={submitHandler}>
 			<input
 				type="text"
-				value={studentCtx.studentName}
-				onChange={(e) => studentCtx.setStudentName(e.target.value)}
+				value={studentStates.studentName}
+				onChange={(e) =>
+					dispatch({
+						type: "CHANGE_STUDENT_NAME",
+						payload: e.target.value,
+					})
+				}
 			/>
 			<button type="submit">
-				{studentCtx.editMode ? "Update Student" : "Add Student"}
+				{studentStates.editMode ? "Update Student" : "Add Student"}
 			</button>
 		</form>
 	);
