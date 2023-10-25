@@ -1,13 +1,7 @@
-.student-form {
+.App {
   text-align: center;
 }
 
-.student-section {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 2rem;
-}
-
-.list {
-  border: 1px solid black;
+.note-item {
+  margin-top: 1rem;
 }
