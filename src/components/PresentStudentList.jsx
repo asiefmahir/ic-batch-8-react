@@ -1,12 +1,16 @@
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 
 import { StudentContext } from "../contexts/Student";
 
-const PresentStudentList = () => {
+const PresentStudentList = (props) => {
 	const { studentStates, dispatch } = useContext(StudentContext);
 	// derived State
-	const presentList = studentStates.students.filter(
-		(student) => student.isPresent === true,
+	const presentList = useMemo(
+		() =>
+			studentStates.students.filter(
+				(student) => student.isPresent === true,
+			),
+		[studentStates.students],
 	);
 	return (
 		<div className="list present-list">
