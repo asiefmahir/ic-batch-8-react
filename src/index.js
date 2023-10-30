@@ -5,15 +5,19 @@ import App from './App';
 import StudentProvider from './contexts/Student';
 import reportWebVitals from './reportWebVitals';
 import App2 from './App2';
+import {RouterProvider} from 'react-router-dom'
+
+import {router} from './router/router'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 // console.log(root.render);
 root.render(
   <React.StrictMode>
     {/* <App2 /> */}
-    <StudentProvider>
+    {/* <StudentProvider>
       <App />
-    </StudentProvider>
+    </StudentProvider> */}
+    <RouterProvider router={router}/>
   </React.StrictMode>
 );
 
