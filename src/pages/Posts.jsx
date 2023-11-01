@@ -1,12 +1,17 @@
-import React from "react";
-import { getPosts } from "../services/post";
 import { Link, useLoaderData } from "react-router-dom";
+import { useFetch } from "../hooks/useFetch";
 
 const Posts = () => {
-	const posts = useLoaderData();
+	const {
+		data: posts,
+		isLoading,
+		errorMessage,
+	} = useFetch(`https://jsonplaceholder.typicode.com/posts?_limit=5`, []);
 	return (
 		<div>
 			<h2>All Posts</h2>
+			{isLoading && <p>Loading...</p>}
+			{errorMessage && <p>{errorMessage}</p>}
 			<ul>
 				{posts?.map((post) => (
 					<li key={post.id}>

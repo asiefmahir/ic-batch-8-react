@@ -65,6 +65,34 @@ export default function Root() {
 								Posts
 							</NavLink>
 						</li>
+						<li>
+							<NavLink
+								to="/users"
+								className={({ isActive, isPending }) =>
+									isActive
+										? "active"
+										: isPending
+										? "pending"
+										: ""
+								}
+							>
+								Users
+							</NavLink>
+						</li>
+						<li>
+							<NavLink
+								to="/counter"
+								className={({ isActive, isPending }) =>
+									isActive
+										? "active"
+										: isPending
+										? "pending"
+										: ""
+								}
+							>
+								Counter page
+							</NavLink>
+						</li>
 					</ul>
 				</nav>
 			</div>
