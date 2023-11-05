@@ -1,24 +1,25 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import StudentProvider from './contexts/Student';
-import reportWebVitals from './reportWebVitals';
-import App2 from './App2';
-import {RouterProvider} from 'react-router-dom'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import reportWebVitals from "./reportWebVitals";
+import { RouterProvider } from "react-router-dom";
 
-import {router} from './router/router'
+import { router } from "./router/router";
+import BoardProvider from "./contexts/Board";
+import ListProvider from "./contexts/List";
+import TaskProvider from "./contexts/Task";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-// console.log(root.render);
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
-    {/* <App2 /> */}
-    {/* <StudentProvider>
-      <App />
-    </StudentProvider> */}
-    <RouterProvider router={router}/>
-  </React.StrictMode>
+	<React.StrictMode>
+		<BoardProvider>
+			<ListProvider>
+				<TaskProvider>
+					<RouterProvider router={router} />
+				</TaskProvider>
+			</ListProvider>
+		</BoardProvider>
+	</React.StrictMode>,
 );
 
 // setTimeout(() => {}, 5000)
