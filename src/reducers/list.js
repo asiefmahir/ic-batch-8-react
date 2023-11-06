@@ -19,7 +19,7 @@ export const listReducer = (lists, action) => {
 	switch (action.type) {
 		case "CREATE_LIST": {
 			const newList = {
-				id: Date.now() + "",
+				id: action.payload.id,
 				title: action.payload.title,
 				boardId: action.payload.boardId,
 				tasks: [],
