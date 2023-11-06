@@ -14,7 +14,7 @@ export const taskReducer = (tasks, action) => {
 	switch (action.type) {
 		case "CREATE_TASK": {
 			const newTask = {
-				id: Date.now() + "",
+				id: action.payload.id,
 				title: action.payload.title,
 				boardId: action.payload.boardId,
 				listId: action.payload.listId,
@@ -24,7 +24,7 @@ export const taskReducer = (tasks, action) => {
 		}
 
 		case "REMOVE_TASK": {
-			return tasks.filter((task) => task.id !== action.payload.id);
+			return tasks.filter((task) => task.id !== action.payload);
 		}
 
 		case "CHANGE_TASK_NAME": {
