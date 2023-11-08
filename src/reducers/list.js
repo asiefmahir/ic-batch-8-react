@@ -4,13 +4,13 @@
  *          id,
  *          title,
  *          boardId,
- *          tasks: ['task-1',]
+ *          tasks: ['task-2']
  *      },
  * {
  *          id,
  *          title,
  *          boardId,
- *          tasks: ['task-1', 'task-2']
+ *          tasks: ['task-1']
  *      },
  * ]
  */
@@ -77,6 +77,46 @@ export const listReducer = (lists, action) => {
 				}
 
 				return list; // return list if list.id !== action.payload.id
+			});
+		}
+
+		case "SORT_TASK_IDS_IN_LIST": {
+			const { draggableId, source, destination } = action.payload;
+			return lists.map((list) => {
+				if (
+					list.id === source.droppableId &&
+					source.droppableId === destination.droppableId
+				) {
+					// Create a copy of the tasks array
+
+					const copyOfTasks = [...list.tasks];
+					copyOfTasks.splice(source.index, 1);
+					copyOfTasks.splice(destination.index, 0, draggableId);
+					return { ...list, tasks: copyOfTasks };
+				}
+
+				if (list.id === source.droppableId) {
+					return {
+						...list,
+						tasks: list.tasks.filter(
+							(taskId) => taskId !== draggableId,
+						),
+					};
+				}
+
+				if (list.id === destination.droppableId) {
+					// list.tasks.splice(destination.index, 0, draggableId);
+					return {
+						...list,
+						tasks: [
+							...list.tasks.slice(0, destination.index),
+							draggableId,
+							...list.tasks.slice(destination.index),
+						],
+					};
+				}
+
+				return list;
 			});
 		}
 
