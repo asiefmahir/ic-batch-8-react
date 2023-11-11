@@ -1,14 +1,18 @@
-import plusIcon from './icons/plus.png';
-import crossIcon from './icons/cross.png'
-import editIcon from './icons/dots.png';
-import backArrowIcon from './icons/backarrow.png'
+import crossIcon from './icons/cross.png';
+import plusIcon from './icons/plus.svg';
+import minusIcon from './icons/minus.svg';
+import editIcon from './icons/edit-icon.png'
 
-
-const icons = {
+const icons  = {
+    crossIcon,
     plusIcon,
-    crossIcon, 
-    editIcon,
-    backArrowIcon
+    minusIcon,
+    editIcon
 }
 
-export {icons}
+const images = {};
+
+export {
+    icons,
+    images
+}
