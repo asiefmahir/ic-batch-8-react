@@ -1,27 +1,20 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
-// import { RouterProvider } from "react-router-dom";
+import { RouterProvider } from "react-router-dom";
 
+import { store } from "./store";
 import "./index.css";
 
-// import { router } from "./router/router";
-import App from "./App";
-
-import { store } from "./store/index";
+import { router } from "./router/router";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 // console.log(root.render);
 root.render(
 	<React.StrictMode>
-		{/* <App2 /> */}
-		{/* <StudentProvider>
-      <App />
-    </StudentProvider> */}
 		<Provider store={store}>
-			<App />
+			<RouterProvider router={router} />
 		</Provider>
-		{/* <RouterProvider router={router} /> */}
 	</React.StrictMode>,
 );
 
