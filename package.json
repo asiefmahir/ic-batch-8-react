@@ -5,6 +5,7 @@
 	"dependencies": {
 		"@redux-devtools/core": "^3.13.3",
 		"@redux-devtools/extension": "^3.2.6",
+		"@reduxjs/toolkit": "^1.9.7",
 		"@testing-library/jest-dom": "^5.17.0",
 		"@testing-library/react": "^13.4.0",
 		"@testing-library/user-event": "^13.5.0",
