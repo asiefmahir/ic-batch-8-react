@@ -16,6 +16,12 @@ function Nav() {
 						<li>
 							<Link to="/counter-theme">Counter Theme</Link>
 						</li>
+						<li>
+							<Link to="/posts">Posts</Link>
+						</li>
+						<li>
+							<Link to="/todos">Todo-List</Link>
+						</li>
 					</ul>
 				</nav>
 			</div>
