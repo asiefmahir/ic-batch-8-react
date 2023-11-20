@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
-import { fetchAllPost } from "../store/api-services/post";
+import { fetchAllPosts } from "../store/reducers/post";
 
 const Posts = () => {
 	const dispatch = useDispatch();
@@ -10,7 +10,7 @@ const Posts = () => {
 	} = useSelector((state) => state.post);
 
 	const submitHandler = () => {
-		dispatch(fetchAllPost);
+		dispatch(fetchAllPosts());
 	};
 	return (
 		<div>
