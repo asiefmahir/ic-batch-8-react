@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
-import { fetchAllTodo } from "../store/api-services/todo";
+// import { fetchAllTodo } from "../store/api-services/todo";
+import { fetchAllTodos } from "../store/reducers/todo";
 
 const TodoList = () => {
 	const dispatch = useDispatch();
@@ -10,7 +11,7 @@ const TodoList = () => {
 	} = useSelector((state) => state.todo);
 
 	const submitHandler = () => {
-		dispatch(fetchAllTodo);
+		dispatch(fetchAllTodos());
 	};
 	return (
 		<div>
