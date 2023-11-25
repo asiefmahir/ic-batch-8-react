@@ -1,15 +1,17 @@
-import { useEffect, useState } from "react";
+import { useGetAllProductsQuery } from "../features/product/productApi";
 
 import ProductCard from "../components/ProductCard";
 
 const Shop = () => {
-	const [products, setProducts] = useState([]);
+	const {
+		data: products,
+		isFetching,
+		isError,
+		error,
+	} = useGetAllProductsQuery();
 
-	useEffect(() => {
-		fetch(`http://localhost:4000/products`)
-			.then((res) => res.json())
-			.then((data) => setProducts(data));
-	}, []);
+	if (isFetching) return <p>Loading...</p>;
+	if (isError) return <p>{error.message} </p>;
 	return (
 		<div>
 			<div className="page-banner">
