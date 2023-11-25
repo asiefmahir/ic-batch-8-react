@@ -25,12 +25,14 @@
 // );
 
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import { setupListeners } from "@reduxjs/toolkit/query/react";
 
 import { counterReducer } from "./reducers/counter";
 import { themeReducer } from "./reducers/theme";
 import { cartReducer } from "./reducers/cart";
 import postReducer from "./reducers/post";
 import todoReducer from "./reducers/todo";
+import { apiSlice } from "../features/api/apiSlice";
 
 const rootReducer = combineReducers({
 	counter: counterReducer,
@@ -38,11 +40,14 @@ const rootReducer = combineReducers({
 	cart: cartReducer,
 	post: postReducer,
 	todo: todoReducer,
+	[apiSlice.reducerPath]: apiSlice.reducer,
 });
 
 export const store = configureStore({
 	reducer: rootReducer,
-	// middleware: (getDefaultMiddleWare) => getDefaultMiddleWare().concat()
+	middleware: (getDM) => getDM().concat(apiSlice.middleware),
 });
+
+setupListeners(store.dispatch);
 
 // Action Data type -> String, Object, Function
