@@ -22,6 +22,12 @@ function Nav() {
 						<li>
 							<Link to="/todos">Todo-List</Link>
 						</li>
+						<li>
+							<Link to="/products">Product List</Link>
+						</li>
+						<li>
+							<Link to="/product/add">Add product</Link>
+						</li>
 					</ul>
 				</nav>
 			</div>
