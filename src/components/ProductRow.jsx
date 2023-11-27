@@ -1,14 +1,17 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { icons } from "../assets";
-import { useRemoveProductMutation } from "../features/product/productApi";
+import { removeProduct } from "../services/products";
 
 function ProductRow({ item }) {
+	const client = useQueryClient();
 	const navigate = useNavigate();
-	const [deleteProduct, result] = useRemoveProductMutation();
-
-	if (result.isSuccess) {
-		navigate("/");
-	}
+	const removeMutation = useMutation({
+		mutationFn: () => removeProduct(item.id),
+		onSuccess: () => {
+			client.invalidateQueries(["products"]);
+		},
+	});
 
 	return (
 		<tr className="product-row d-flex justify-content-around align-items-center">
@@ -40,7 +43,7 @@ function ProductRow({ item }) {
 					className="product-icon"
 					src={icons.crossIcon}
 					onClick={() => {
-						deleteProduct(item.id);
+						removeMutation.mutate(item.id);
 					}}
 					// onClick={() => removeProductMutation.mutate(item._id)}
 				/>

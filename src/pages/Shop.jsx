@@ -1,14 +1,22 @@
-import { useGetAllProductsQuery } from "../features/product/productApi";
+import { useQuery } from "@tanstack/react-query";
 
 import ProductCard from "../components/ProductCard";
+import { getAllProducts } from "../services/products";
 
 const Shop = () => {
 	const {
 		data: products,
+		isLoading,
 		isFetching,
 		isError,
 		error,
-	} = useGetAllProductsQuery();
+	} = useQuery({
+		queryKey: ["products"],
+		queryFn: getAllProducts,
+		// refetchOnWindowFocus: true,
+		// refetchOnMount: false,
+		refetchInterval: 5000,
+	});
 
 	if (isFetching) return <p>Loading...</p>;
 	if (isError) return <p>{error.message} </p>;
