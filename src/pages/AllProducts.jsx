@@ -1,8 +1,12 @@
+import { useQuery } from "@tanstack/react-query";
 import ProductRow from "../components/ProductRow";
-import { useGetAllProductsQuery } from "../features/product/productApi";
+import { getAllProducts } from "../services/products";
 
 const AllProducts = () => {
-	const { data, isFetching, isError, error } = useGetAllProductsQuery();
+	const { data, isFetching, isError, error } = useQuery({
+		queryKey: ["products"],
+		queryFn: getAllProducts,
+	});
 	return (
 		<>
 			<div className="product-section">

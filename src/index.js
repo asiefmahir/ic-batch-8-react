@@ -2,19 +2,25 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
 import { RouterProvider } from "react-router-dom";
-
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { store } from "./store";
 import "./index.css";
 
 import { router } from "./router/router";
 
+const queryClient = new QueryClient();
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 // console.log(root.render);
 root.render(
 	<React.StrictMode>
-		<Provider store={store}>
-			<RouterProvider router={router} />
-		</Provider>
+		<QueryClientProvider client={queryClient}>
+			<ReactQueryDevtools initialIsOpen={true} />
+			<Provider store={store}>
+				<RouterProvider router={router} />
+			</Provider>
+		</QueryClientProvider>
 	</React.StrictMode>,
 );
 
