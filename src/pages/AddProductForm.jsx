@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { useAddProductMutation } from "../features/product/productApi";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createProduct } from "../services/products";
 
 const AddProductForm = () => {
 	const [product, setProduct] = useState({
@@ -8,9 +9,15 @@ const AddProductForm = () => {
 		image: "",
 		description: "",
 	});
+	const client = useQueryClient();
 
-	const [createProduct, result] = useAddProductMutation();
-	console.log(result);
+	const createProductMutation = useMutation({
+		mutationFn: () => createProduct(product),
+		onSuccess: () => {
+			client.invalidateQueries(["products"]);
+		},
+	});
+	console.log(createProductMutation.data);
 
 	const handleChange = (e) => {
 		setProduct({ ...product, [e.target.name]: e.target.value });
@@ -19,7 +26,7 @@ const AddProductForm = () => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		createProduct(product);
+		createProductMutation.mutate(product);
 	};
 
 	return (
