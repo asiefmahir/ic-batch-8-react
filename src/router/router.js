@@ -7,6 +7,7 @@ import Posts from "../pages/Posts";
 import TodoList from "../pages/TodoList";
 import AddProductForm from "../pages/AddProductForm";
 import AllProducts from "../pages/AllProducts";
+import ClassComponentsPractice from "../pages/ClassComponentsPractice";
 
 export const router = createBrowserRouter([
 	{
@@ -20,6 +21,10 @@ export const router = createBrowserRouter([
 			{ path: "/todos", element: <TodoList /> },
 			{ path: "/product/add", element: <AddProductForm /> },
 			{ path: "/products", element: <AllProducts /> },
+			{
+				path: "/class-components-practice",
+				element: <ClassComponentsPractice />,
+			},
 		],
 	},
 ]);
