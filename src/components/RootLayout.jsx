@@ -1,12 +1,12 @@
-import { Outlet } from "react-router-dom";
-import Nav from "./Nav";
-
-const RootLayout = () => {
+const RootLayout = ({ children }) => {
 	return (
-		<>
-			<Nav />
-			<Outlet />
-		</>
+		<div>
+			<nav>
+				<li>Home</li>
+				<li>About</li>
+			</nav>
+			{children}
+		</div>
 	);
 };
 
