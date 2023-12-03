@@ -1,12 +1,11 @@
+import Nav from "./Nav";
+
 const RootLayout = ({ children }) => {
 	return (
-		<div>
-			<nav>
-				<li>Home</li>
-				<li>About</li>
-			</nav>
+		<>
+			<Nav />
 			{children}
-		</div>
+		</>
 	);
 };
 
