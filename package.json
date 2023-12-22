@@ -10,9 +10,13 @@
 		"lint": "next lint"
 	},
 	"dependencies": {
+		"bcrypt": "^5.1.1",
+		"mongoose": "^7.6.7",
+		"mongoose-unique-validator": "^4.0.0",
+		"next": "14.0.3",
+		"next-auth": "^4.24.5",
 		"react": "^18",
-		"react-dom": "^18",
-		"next": "14.0.3"
+		"react-dom": "^18"
 	},
 	"devDependencies": {
 		"eslint": "^8",
