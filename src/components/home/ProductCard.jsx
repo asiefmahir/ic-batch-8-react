@@ -1,14 +1,18 @@
 "use client";
 
+import { useContext } from "react";
+import { CartContext } from "@/contexts/Cart";
+import { ADD_TO_CART } from "@/action-types/cart";
+
 const ProductCard = ({ product }) => {
-	console.log("Client Compo");
+	const { dispatchCartAction } = useContext(CartContext);
 	return (
 		<div className="ingredient">
 			<div className="ingredient__image">
 				<figure>
 					<img src={product.image} alt={product.title} />
 				</figure>
-				<h2>{product.title}</h2>
+				{/* <h2>{product.title}</h2> */}
 			</div>
 			<div className="ingredient__title">
 				<h3>{product.title}</h3>
@@ -19,8 +23,16 @@ const ProductCard = ({ product }) => {
 				</p>
 			</div>
 			<div className="ingredient__btn">
-				<button className="btn-white" onClick={() => {}}>
-					ADD TO CART
+				<button
+					className="btn-white"
+					onClick={() => {
+						dispatchCartAction({
+							type: ADD_TO_CART,
+							payload: product,
+						});
+					}}
+				>
+					Add to Cart
 				</button>
 			</div>
 		</div>
