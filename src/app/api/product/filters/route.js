@@ -6,30 +6,41 @@ import queryString from "query-string";
 export async function GET(req) {
 	await connectDb();
 	const searchParams = queryString.parseUrl(req.url).query;
-	const { page } = searchParams || {};
+	const { page, minPrice, maxPrice } = searchParams || {};
+
 	const pageSize = 10;
+
+	const filter = {};
+
+	if (minPrice && maxPrice) {
+		filter.price = { $gte: minPrice, $lte: maxPrice };
+	}
+
 	try {
 		const currentPage = Number(page) || 1;
 		const skip = (currentPage - 1) * pageSize;
-		const totalProducts = await Product.countDocuments({});
-
-		const products = await Product.find({})
+		const filteredProducts = await Product.find(filter)
 			.skip(skip)
 			.limit(pageSize)
 			.sort({ createdAt: -1 });
-		// .populate("category", "title");
-
-		return NextResponse.json({
-			products,
-			currentPage,
-			totalPages: Math.ceil(totalProducts / pageSize),
-		});
+		console.log(filteredProducts, "fill");
+		return NextResponse.json(
+			{
+				products: filteredProducts,
+				currentPage,
+				totalPages: Math.ceil(filteredProducts.length / pageSize),
+			},
+			{ status: 200 },
+		);
 	} catch (err) {
+		console.log(err);
 		return NextResponse.json(
 			{
 				err: err.message,
 			},
-			{ status: 500 },
+			{
+				status: 500,
+			},
 		);
 	}
 }
