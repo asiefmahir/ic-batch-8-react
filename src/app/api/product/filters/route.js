@@ -6,11 +6,13 @@ import queryString from "query-string";
 export async function GET(req) {
 	await connectDb();
 	const searchParams = queryString.parseUrl(req.url).query;
-	const { page, minPrice, maxPrice } = searchParams || {};
+	const { page, minPrice, maxPrice, category } = searchParams || {};
 
 	const pageSize = 10;
 
 	const filter = {};
+
+	if (category) [(filter.category = category)];
 
 	if (minPrice && maxPrice) {
 		filter.price = { $gte: minPrice, $lte: maxPrice };
