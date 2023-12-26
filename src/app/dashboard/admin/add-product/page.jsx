@@ -1,8 +1,73 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { createProduct } from "@/actions/product";
+import { useState, useEffect } from "react";
+import Resizer from "react-image-file-resizer";
 
 const AddProduct = () => {
+	const [product, setProduct] = useState({
+		title: "",
+		price: "",
+		description: "",
+		image: null,
+		category: "",
+	});
+	const [categories, setCategories] = useState([]);
+
+	const [image, setImage] = useState(null);
+	const [uploading, setUploading] = useState(false);
+
+	const handleChange = (e) => {
+		setProduct({ ...product, [e.target.name]: e.target.value });
+	};
+	const getCategories = () => {
+		fetch(`http://localhost:3000/api/category`)
+			.then((res) => res.json())
+			.then((data) => setCategories(data));
+	};
+
+	useEffect(() => {
+		getCategories();
+	});
+
+	const uploadImage = (e) => {
+		const file = e.target.files[0];
+		if (file) {
+			setUploading(true);
+			const promise = new Promise((resolve) => {
+				Resizer.imageFileResizer(
+					file,
+					1280,
+					720,
+					"JPEG",
+					100,
+					0,
+					(uri) => {
+						fetch(`http://localhost:3000/api/admin/upload/image`, {
+							method: "POST",
+							body: JSON.stringify({ image: uri }),
+						})
+							.then((res) => res.json())
+							.then((data) => {
+								setProduct({ ...product, image: data });
+								setImage(data);
+								setUploading(false);
+								resolve();
+							});
+					},
+					"base64",
+				);
+			});
+
+			// Promise.all(promise).then(() => {
+			// 	setProduct({ ...product, image: data });
+			// 	setUploading(false);
+			// });
+		}
+	};
+
+	const createProductAction = createProduct.bind(null, product);
 	return (
 		<>
 			<form
@@ -12,10 +77,11 @@ const AddProduct = () => {
 					alignItems: "center",
 					justifyContent: "center",
 				}}
-				action={createProduct}
+				action={createProductAction}
 			>
 				<p>Title</p>
 				<input
+					onChange={handleChange}
 					type="text"
 					name="title"
 					required
@@ -24,6 +90,7 @@ const AddProduct = () => {
 				<br />
 				<p>Description</p>
 				<input
+					onChange={handleChange}
 					type="text"
 					name="description"
 					required
@@ -32,21 +99,52 @@ const AddProduct = () => {
 				<br />
 				<p>Price</p>
 				<input
+					onChange={handleChange}
 					type="number"
 					name="price"
 					required
 					style={{ display: "block", width: "70%" }}
 				/>
 				<br />
+				<select
+					name="category"
+					id=""
+					onChange={handleChange}
+					value={product.category}
+				>
+					{categories?.map((cat) => (
+						<option key={cat?._id} value={cat?._id}>
+							{cat.title}
+						</option>
+					))}
+				</select>
 				<p>Image</p>
-				<input
-					type="text"
-					name="image"
-					required
-					style={{ display: "block", width: "70%" }}
-				/>
-				<input type="submit" />
+				<label>
+					<input
+						type="file"
+						hidden
+						accept="images/*"
+						onChange={uploadImage}
+						disabled={uploading}
+					/>
+					{uploading ? "Processing" : "Upload Image"}
+				</label>
+				{!uploading && <input type="submit" />}
 			</form>
+			<div className="d-flex justify-content-center">
+				{image && (
+					<div key={image?.public_id}>
+						<img
+							style={{ width: "100px", objectFit: "cover" }}
+							className="img-thumbnail mx-1 shadow"
+							src={image?.secure_url}
+							alt="New product"
+						/>
+						<br />
+						<div className="text-center pointer">x</div>
+					</div>
+				)}
+			</div>
 		</>
 	);
 };

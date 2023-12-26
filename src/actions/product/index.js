@@ -5,14 +5,15 @@ import Product from "@/models/product";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-export async function createProduct(formData) {
+export async function createProduct(prevState, formData) {
 	try {
 		await connectDb();
 		const product = {
-			title: formData.get("title"),
-			description: formData.get("description"),
-			price: Number(formData.get("price")),
-			image: formData.get("image"),
+			title: prevState.title,
+			description: prevState.description,
+			price: Number(prevState.price),
+			category: prevState.category,
+			image: prevState.image,
 		};
 		await new Product(product).save();
 	} catch (error) {
