@@ -3,6 +3,7 @@ import Nav from "@/components/Nav";
 import { SessionProvider } from "next-auth/react";
 import "./globals.css";
 import CartProvider from "@/contexts/Cart";
+import "bootstrap-material-design/dist/css/bootstrap-material-design.min.css";
 
 // export const metadata = {
 //   title: 'Create Next App',
