@@ -13,24 +13,33 @@ function Nav() {
 							<Link href="/shop">Shop</Link>
 						</li>
 						<li>
-							<Link href="/about">About</Link>
-						</li>
-						<li>
 							<Link href="/cart">Cart</Link>
 						</li>
-						<li>
-							<Link href="/posts">Posts</Link>
-						</li>
-						<li>
-							<Link href="/todos">Todo-List</Link>
-						</li>
-						<li>
-							<Link href="/products">Product List</Link>
-						</li>
+						{data?.user && data?.user?.role === "user" && (
+							<li>
+								<Link href="/dashboard/user/orders">
+									My Orders
+								</Link>
+							</li>
+						)}
 						{data?.user && data?.user?.role === "admin" && (
 							<li>
 								<Link href="/dashboard/admin/add-product">
 									Add product
+								</Link>
+							</li>
+						)}
+						{data?.user && data?.user?.role === "admin" && (
+							<li>
+								<Link href="/dashboard/admin/products">
+									All Product
+								</Link>
+							</li>
+						)}
+						{data?.user && data?.user?.role === "admin" && (
+							<li>
+								<Link href="/dashboard/admin/orders">
+									All Orders
 								</Link>
 							</li>
 						)}
