@@ -24,12 +24,15 @@ const AddProduct = () => {
 	const getCategories = () => {
 		fetch(`http://localhost:3000/api/category`)
 			.then((res) => res.json())
-			.then((data) => setCategories(data));
+			.then((data) => {
+				setCategories(data);
+				setProduct({ ...product, category: data[0] });
+			});
 	};
 
 	useEffect(() => {
 		getCategories();
-	});
+	}, []);
 
 	const uploadImage = (e) => {
 		const file = e.target.files[0];

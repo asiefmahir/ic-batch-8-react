@@ -2,13 +2,15 @@
 import { useEffect, useState } from "react";
 import { priceRanges } from "@/utils/filterData";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 // import Stars from "@/components/product/Stars";
 
 export default function ProductFilter({ searchParams }) {
 	const [categories, setCategories] = useState([]);
 	const pathname = "/shop";
 	const { minPrice, maxPrice, ratings, category } = searchParams;
+	const regSearchParams = useSearchParams();
+	console.log(regSearchParams, "reg");
 	const getCategories = () => {
 		fetch(`http://localhost:3000/api/category`)
 			.then((res) => res.json())
@@ -17,6 +19,7 @@ export default function ProductFilter({ searchParams }) {
 				setCategories(data);
 			});
 	};
+
 	// context
 	// const { fetchCategoriesPublic, categories } = useCategory();
 	// const { fetchTagsPublic, tags } = useTag();
@@ -30,6 +33,7 @@ export default function ProductFilter({ searchParams }) {
 	}, []);
 
 	const router = useRouter();
+	console.log(router);
 
 	const activeButton = "btn btn-primary btn-raised mx-1 rounded-pill";
 	const button = "btn btn-raised mx-1 rounded-pill";
@@ -57,6 +61,40 @@ export default function ProductFilter({ searchParams }) {
 		router.push(newUrl);
 	};
 
+	// useEffect(() => {
+	// 	const url = `${pathname}?${regSearchParams}`;
+
+	// 	router.push(url);
+	// 	console.log(url);
+	// }, [router, regSearchParams]);
+
+	const createQueryString = (name, value) => {
+		let params = new URLSearchParams(searchParams);
+
+		if (Array.isArray(name) && Array.isArray(value)) {
+			console.log(name, value, "val");
+			name.forEach((n, index) => {
+				console.log(n, "lw");
+				// console.log(index, "lw");
+				// params = new URLSearchParams(searchParams);
+				params.set(n, value[index]);
+				// params.toString();
+			});
+			params.set("page", 1);
+			// for (let i = 0; i < name.length; i++) {
+			// 	console.log(name);
+			// 	params.set(name[i], value[i]);
+			// }
+			return params.toString();
+		}
+
+		if (typeof name === "string") {
+			params.set(name, value);
+			params.set("page", 1);
+			return params.toString();
+		}
+	};
+
 	return (
 		<div className="mb-5 overflow-scroll">
 			<p className="lead">Filter Products</p>
@@ -82,12 +120,33 @@ export default function ProductFilter({ searchParams }) {
 						maxPrice === String(range?.max);
 					return (
 						<div key={range?.label}>
-							<Link
-								href={url}
+							<button
+								// href={url}
 								className={isActive ? activeButton : button}
+								onClick={() => {
+									console.log(
+										createQueryString(
+											["minPrice, maxPrice"],
+											[range?.min, range?.max],
+										),
+									);
+									router.push(
+										`${pathname}?${createQueryString(
+											["minPrice", "maxPrice"],
+											[range?.min, range?.max],
+										)}`,
+									);
+								}}
+								// onClick={() => router.replace(url)}
+								// onClick={() =>
+								// 	handleParamChange({
+								// 		filterName: ["minPrice", "maxPrice"],
+								// 		filterValue: [minPrice, maxPrice],
+								// 	})
+								// }
 							>
 								{range?.label}
-							</Link>
+							</button>
 							{isActive && (
 								<span
 									onClick={() =>
@@ -161,12 +220,26 @@ export default function ProductFilter({ searchParams }) {
 					};
 					return (
 						<div key={c._id}>
-							<Link
-								href={url}
+							<button
+								// href={url}
 								className={isActive ? activeButton : button}
+								onClick={() => {
+									router.push(
+										`${pathname}?${createQueryString(
+											"category",
+											c._id,
+										)}`,
+									);
+								}}
+								// onClick={() =>
+								// 	handleParamChange({
+								// 		filterName: "category",
+								// 		filterValue: c._id,
+								// 	})
+								// }
 							>
 								{c?.title}
-							</Link>
+							</button>
 							{isActive && (
 								<span
 									onClick={() =>

@@ -1,17 +1,22 @@
 "use client";
 
-import { useContext } from "react";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
 
 import CartItem from "@/components/cart/CartItem";
 
-import { CLEAR_CART } from "@/action-types/cart";
-import { CartContext } from "@/contexts/Cart";
+import { useCart } from "@/contexts/Cart";
 
 const Cart = () => {
-	const { cart, dispatchCartAction } = useContext(CartContext);
+	// const { cart, dispatchCartAction } = useContext(CartContext);
+	const { cartItems, clearCart } = useCart();
+	const { data, status } = useSession();
 
 	let totalAmount = 0;
-	cart.forEach((item) => (totalAmount += item.price * item.quantity));
+	cartItems.forEach((item) => (totalAmount += item.price * item.quantity));
+
+	// const callbackUrl =
+	// 	window && typeof window === undefined ? "/" : window.location.pathname;
 
 	return (
 		<>
@@ -32,7 +37,7 @@ const Cart = () => {
 							</tr>
 						</thead>
 						<tbody>
-							{cart.map((item) => (
+							{cartItems.map((item) => (
 								<CartItem key={item._id} item={item} />
 							))}
 						</tbody>
@@ -46,14 +51,39 @@ const Cart = () => {
 				>
 					<div className="mt-50">
 						<button
-							onClick={() =>
-								dispatchCartAction({ type: CLEAR_CART })
-							}
+							onClick={() => clearCart()}
 							type="button"
 							className=""
 						>
 							Clear Cart
 						</button>
+					</div>
+				</div>
+
+				<div className="container">
+					<div className="row">
+						<div className="col-lg-8 offset-lg-2">
+							<div className="d-flex justify-content-end my-4">
+								{status !== "authenticated" ? (
+									<Link
+										className="btn btn-primary btn-raised col-6"
+										href={`/login?callbackUrl=${"/cart"}`}
+									>
+										Login to Proceed to CheckOut
+									</Link>
+								) : (
+									<Link
+										className="btn btn-primary btn-raised col-6"
+										href={`/checkout`}
+										aria-disabled={
+											status !== "authenticated"
+										}
+									>
+										Proceed to CheckOut
+									</Link>
+								)}
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

@@ -26,11 +26,13 @@ export async function GET(req) {
 			.limit(pageSize)
 			.sort({ createdAt: -1 });
 		console.log(filteredProducts, "fill");
+
+		const totalFilteredProducts = await Product.find(filter);
 		return NextResponse.json(
 			{
 				products: filteredProducts,
 				currentPage,
-				totalPages: Math.ceil(filteredProducts.length / pageSize),
+				totalPages: Math.ceil(totalFilteredProducts.length / pageSize),
 			},
 			{ status: 200 },
 		);

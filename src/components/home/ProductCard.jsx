@@ -3,11 +3,10 @@
 "use client";
 
 import { useContext } from "react";
-import { CartContext } from "@/contexts/Cart";
-import { ADD_TO_CART } from "@/action-types/cart";
+import { useCart } from "@/contexts/Cart";
 
 const ProductCard = ({ product }) => {
-	const { dispatchCartAction } = useContext(CartContext);
+	const { addToCart } = useCart();
 	return (
 		<div className="ingredient">
 			<div className="ingredient__image">
@@ -35,10 +34,7 @@ const ProductCard = ({ product }) => {
 				<button
 					className="btn-white"
 					onClick={() => {
-						dispatchCartAction({
-							type: ADD_TO_CART,
-							payload: product,
-						});
+						addToCart(product);
 					}}
 				>
 					Add to Cart

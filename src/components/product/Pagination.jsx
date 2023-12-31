@@ -1,6 +1,16 @@
-import Link from "next/link";
+"use client";
 
-const Pagination = ({ currentPage, totalPages, pathname }) => {
+import Link from "next/link";
+import { useSearchParams, useRouter } from "next/navigation";
+
+const Pagination = ({ currentPage, totalPages, pathname, searchParams }) => {
+	const router = useRouter();
+	const createQueryString = (name, value) => {
+		let params = new URLSearchParams(searchParams);
+
+		params.set(name, value);
+		return params.toString();
+	};
 	console.log(Array.from({ length: totalPages }));
 	return (
 		<div style={{ textAlign: "center" }}>
@@ -14,6 +24,13 @@ const Pagination = ({ currentPage, totalPages, pathname }) => {
 					>
 						{Array.from({ length: totalPages }, (_, index) => {
 							const page = index + 1;
+							const url = {
+								pathname,
+								query: {
+									...searchParams,
+									page,
+								},
+							};
 							return (
 								<li
 									style={{
@@ -24,9 +41,18 @@ const Pagination = ({ currentPage, totalPages, pathname }) => {
 									}}
 									key={page}
 								>
-									<Link href={`${pathname}?page=${page}`}>
+									<button
+										onClick={() => {
+											router.push(
+												`${pathname}?${createQueryString(
+													"page",
+													page,
+												)}`,
+											);
+										}}
+									>
 										{page}
-									</Link>
+									</button>
 								</li>
 							);
 						})}
