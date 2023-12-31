@@ -1,4 +1,7 @@
 import { NextResponse } from "next/server";
+import connectDb from "@/utils/connectDb";
+import Product from "@/models/product";
+import queryString from "query-string";
 import cloudinary from "cloudinary";
 
 cloudinary.config({
@@ -7,20 +10,15 @@ cloudinary.config({
 	api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-export async function POST(req) {
-	const { image } = await req.json();
-	const result = await cloudinary.uploader.upload(image);
-	return NextResponse.json({
-		public_id: result.public_id,
-		secure_url: result.secure_url,
-	});
-}
-
 export async function DELETE(req) {
-	const { public_id } = await req.json();
+	const { product } = await req.json();
 
 	try {
-		const result = await cloudinary.uploader.destroy(public_id);
+		await connectDb();
+		await Product.findByIdAndDelete({ _id: product._id });
+		const result = await cloudinary.uploader.destroy(
+			product?.image?.public_id,
+		);
 		return NextResponse.json({ success: true });
 	} catch (err) {
 		console.log(err);

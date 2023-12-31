@@ -34,6 +34,20 @@ const AddProduct = () => {
 		getCategories();
 	}, []);
 
+	const removePhoto = (image) => {
+		fetch(`${process.env.API}/admin/upload/image`, {
+			method: "DELETE",
+			body: JSON.stringify({ public_id: image?.public_id }),
+			headers: {
+				"Content-Type": "application/json",
+			},
+		}).then((res) => {
+			if (res.ok) {
+				setProduct({ ...product, image: null });
+			}
+		});
+	};
+
 	const uploadImage = (e) => {
 		const file = e.target.files[0];
 		if (file) {
@@ -144,7 +158,12 @@ const AddProduct = () => {
 							alt="New product"
 						/>
 						<br />
-						<div className="text-center pointer">x</div>
+						<div
+							onClick={() => removePhoto(image)}
+							className="text-center pointer"
+						>
+							x
+						</div>
 					</div>
 				)}
 			</div>

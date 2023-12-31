@@ -24,6 +24,22 @@ export async function createProduct(prevState, formData) {
 	}
 
 	revalidatePath("/");
+	revalidatePath("/dashboard/admin/products");
 
 	redirect("/");
 }
+
+export const deleteProduct = async (id) => {
+	console.log(id);
+	try {
+		await fetch(`${process.env.API}/${id}`, {
+			method: "DELETE",
+		});
+	} catch (error) {
+		console.log(error);
+	}
+
+	revalidatePath("/dashboard/admin/products");
+	revalidatePath("/");
+	return id;
+};
