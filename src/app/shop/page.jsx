@@ -14,7 +14,7 @@ async function getProductsForShop(searchParams) {
 
 	try {
 		const response = await fetch(
-			`http://localhost:3000/api/product/filters?${searchQuery}`,
+			`${process.env.API}/product/filters?${searchQuery}`,
 			{
 				method: "GET",
 				cache: "no-store",

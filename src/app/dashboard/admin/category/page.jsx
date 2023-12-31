@@ -6,7 +6,7 @@ import CategoryList from "@/components/category/CategoryList";
 const AdminCategory = () => {
 	const [categories, setCategories] = useState([]);
 	const getCategories = () => {
-		fetch(`http://localhost:3000/api/category`)
+		fetch(`${process.env.API}/category`)
 			.then((res) => res.json())
 			.then((data) => setCategories(data));
 	};
