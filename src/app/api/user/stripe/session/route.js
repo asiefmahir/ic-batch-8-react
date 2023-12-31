@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import connectDb from "@/utils/connectDb";
-// import { currentUser } from "@/utils/currentUser";
 import Product from "@/models/product";
 import { getToken } from "next-auth/jwt";
 
@@ -9,7 +8,6 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 export async function POST(req) {
 	await connectDb();
 	const { cartItems } = await req.json();
-	// const user = await currentUser();
 	const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
 	const user = token?.user;
 
