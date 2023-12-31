@@ -1,20 +1,25 @@
+/* eslint-disable @next/next/no-img-element */
 import { useState, useContext } from "react";
 
-import {
-	MODIFY_QUANTITY_OF_A_ITEM,
-	REMOVE_ITEM_FROM_CART,
-} from "@/action-types/cart";
-import { CartContext } from "@/contexts/Cart";
+// import {
+// 	MODIFY_QUANTITY_OF_A_ITEM,
+// 	REMOVE_ITEM_FROM_CART,
+// } from "@/action-types/cart";
+import { useCart } from "@/contexts/Cart";
 
 function CartItem({ item }) {
 	const [quantity, setQuantity] = useState(item.quantity);
 
-	const { dispatchCartAction } = useContext(CartContext);
+	const { updateQuantity, removeFromCart } = useCart();
 	return (
 		<tr>
 			<td>
 				<div className="product">
-					<img src={item.image} className="product-img" alt="" />
+					<img
+						src={item.image?.secure_url}
+						className="product-img"
+						alt=""
+					/>
 				</div>
 			</td>
 			<td>
@@ -32,13 +37,7 @@ function CartItem({ item }) {
 							onClick={() => {
 								if (quantity > 1) {
 									setQuantity((prevQuantity) => {
-										dispatchCartAction({
-											type: MODIFY_QUANTITY_OF_A_ITEM,
-											payload: {
-												id: item._id,
-												quantity: prevQuantity - 1,
-											},
-										});
+										updateQuantity(item, prevQuantity - 1);
 										return prevQuantity - 1;
 									});
 								}
@@ -57,13 +56,7 @@ function CartItem({ item }) {
 						onChange={(e) => {
 							if (parseInt(e.target.value) >= 0) {
 								setQuantity(parseInt(e.target.value));
-								dispatchCartAction({
-									type: MODIFY_QUANTITY_OF_A_ITEM,
-									payload: {
-										id: item._id,
-										quantity: quantity,
-									},
-								});
+								updateQuantity(item, Number(e.target.value));
 							}
 						}}
 					/>
@@ -76,13 +69,7 @@ function CartItem({ item }) {
 							onClick={() => {
 								if (quantity >= 0) {
 									setQuantity((prevQuantity) => {
-										dispatchCartAction({
-											type: MODIFY_QUANTITY_OF_A_ITEM,
-											payload: {
-												id: item._id,
-												quantity: prevQuantity + 1,
-											},
-										});
+										updateQuantity(item, prevQuantity + 1);
 										return prevQuantity + 1;
 									});
 								}
@@ -95,16 +82,7 @@ function CartItem({ item }) {
 				</div>
 			</td>
 			<td>$ {item.quantity ? item.price * item.quantity : 0}</td>
-			<td
-				onClick={() =>
-					dispatchCartAction({
-						type: REMOVE_ITEM_FROM_CART,
-						payload: item._id,
-					})
-				}
-			>
-				x
-			</td>
+			<td onClick={() => removeFromCart(item._id)}>x</td>
 		</tr>
 	);
 }

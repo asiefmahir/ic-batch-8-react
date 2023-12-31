@@ -1,10 +1,8 @@
 import ProductFilter from "@/components/product/ProductFilter";
 import Pagination from "@/components/product/Pagination";
 import GridLayout from "@/components/home/GridLayout";
-import connectDb from "@/utils/connectDb";
 
 export const dynamic = "force-dynamic";
-
 async function getProductsForShop(searchParams) {
 	const searchQuery = new URLSearchParams({
 		page: searchParams.page || 1,
@@ -19,6 +17,7 @@ async function getProductsForShop(searchParams) {
 			`http://localhost:3000/api/product/filters?${searchQuery}`,
 			{
 				method: "GET",
+				cache: "no-store",
 			},
 		);
 		if (!response.ok) {
@@ -37,7 +36,6 @@ async function getProductsForShop(searchParams) {
 }
 
 export default async function Shop({ searchParams }) {
-	await connectDb();
 	//   console.log("searchParams in shop page => ", searchParams);
 	const { products, currentPage, totalPages } = await getProductsForShop(
 		searchParams,
