@@ -1,6 +1,4 @@
 // import Image from 'next/image'
-import Product from "@/models/product";
-import { authOptions } from "@/utils/auth";
 import connectDb from "@/utils/connectDb";
 
 import GridLayout from "@/components/home/GridLayout";
