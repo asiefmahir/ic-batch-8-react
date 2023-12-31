@@ -3,6 +3,7 @@
 
 import { createProduct } from "@/actions/product";
 import { useState, useEffect } from "react";
+import toast from "react-hot-toast";
 import Resizer from "react-image-file-resizer";
 
 const AddProduct = () => {
@@ -44,6 +45,7 @@ const AddProduct = () => {
 		}).then((res) => {
 			if (res.ok) {
 				setProduct({ ...product, image: null });
+				toast.success("Image removed from cloud");
 			}
 		});
 	};
@@ -158,12 +160,12 @@ const AddProduct = () => {
 							alt="New product"
 						/>
 						<br />
-						<div
+						<button
 							onClick={() => removePhoto(image)}
 							className="text-center pointer"
 						>
 							x
-						</div>
+						</button>
 					</div>
 				)}
 			</div>
