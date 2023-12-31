@@ -21,16 +21,16 @@ const AddProduct = () => {
 	const handleChange = (e) => {
 		setProduct({ ...product, [e.target.name]: e.target.value });
 	};
-	const getCategories = () => {
-		fetch(`http://localhost:3000/api/category`)
-			.then((res) => res.json())
-			.then((data) => {
-				setCategories(data);
-				setProduct({ ...product, category: data[0] });
-			});
-	};
 
 	useEffect(() => {
+		const getCategories = () => {
+			fetch(`http://localhost:3000/api/category`)
+				.then((res) => res.json())
+				.then((data) => {
+					setCategories(data);
+					setProduct((prev) => ({ ...prev, category: data[0] }));
+				});
+		};
 		getCategories();
 	}, []);
 
