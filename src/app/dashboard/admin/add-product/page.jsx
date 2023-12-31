@@ -45,6 +45,7 @@ const AddProduct = () => {
 		}).then((res) => {
 			if (res.ok) {
 				setProduct({ ...product, image: null });
+				setImage(null);
 				toast.success("Image removed from cloud");
 			}
 		});
