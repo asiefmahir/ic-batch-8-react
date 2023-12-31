@@ -17,7 +17,6 @@ export async function POST(req) {
 			sig,
 			process.env.STRIPE_WEBHOOK_SECRET,
 		);
-		// console.log('EVENT ======>', event )
 
 		// handle the event
 		switch (event.type) {
