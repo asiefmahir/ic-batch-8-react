@@ -43,9 +43,7 @@ function Nav() {
 								</Link>
 							</li>
 						)}
-						<li>
-							<Link href="/product-admin">All Products</Link>
-						</li>
+
 						{data?.user && (
 							<li>
 								<button onClick={() => signOut()}>
