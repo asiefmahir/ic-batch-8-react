@@ -24,7 +24,7 @@ const AddProduct = () => {
 
 	useEffect(() => {
 		const getCategories = () => {
-			fetch(`http://localhost:3000/api/category`)
+			fetch(`${process.env.API}/category`)
 				.then((res) => res.json())
 				.then((data) => {
 					setCategories(data);
@@ -47,7 +47,7 @@ const AddProduct = () => {
 					100,
 					0,
 					(uri) => {
-						fetch(`http://localhost:3000/api/admin/upload/image`, {
+						fetch(`${process.env.API}/admin/upload/image`, {
 							method: "POST",
 							body: JSON.stringify({ image: uri }),
 						})

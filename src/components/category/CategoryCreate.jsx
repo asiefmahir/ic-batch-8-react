@@ -10,7 +10,7 @@ const CategoryCreate = ({ getCategories }) => {
 
 	const submitHandler = (e) => {
 		e.preventDefault();
-		fetch(`http://localhost:3000/api/category`, {
+		fetch(`${process.env.API}/category`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",

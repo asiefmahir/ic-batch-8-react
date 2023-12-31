@@ -9,12 +9,9 @@ const getProducts = async (searchParams) => {
 		page: searchParams?.page || 1,
 	}).toString();
 
-	const res = await fetch(
-		`http://localhost:3000/api/product?${searchQuery}`,
-		{
-			method: "GET",
-		},
-	);
+	const res = await fetch(`${process.env.api}/product?${searchQuery}`, {
+		method: "GET",
+	});
 	if (!res.ok) {
 		throw new Error("Failed to fetch products");
 	}
