@@ -1,7 +1,5 @@
 "use client";
 import Link from "next/link";
-import { useCart } from "@/contexts/cart";
-import { useEffect } from "react";
 
 export default function UserStripeSuccess() {
 	return (
