@@ -9,7 +9,7 @@ const getProducts = async (searchParams) => {
 		page: searchParams?.page || 1,
 	}).toString();
 
-	const res = await fetch(`${process.env.api}/product?${searchQuery}`, {
+	const res = await fetch(`${process.env.API}/product?${searchQuery}`, {
 		method: "GET",
 	});
 	if (!res.ok) {
