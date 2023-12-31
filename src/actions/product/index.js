@@ -37,15 +37,15 @@ export async function createProduct(prevState, formData) {
 }
 
 export const deleteProduct = async (id) => {
-	console.log(id);
-	const { product } = await req.json();
-
 	try {
 		await connectDb();
-		await Product.findByIdAndDelete({ _id: product._id });
-		const result = await cloudinary.uploader.destroy(
-			product?.image?.public_id,
-		);
+		const product = await Product.findById({ _id: id });
+		await Product.findByIdAndDelete({ _id: id });
+		if (typeof product.image === "object") {
+			const result = await cloudinary.uploader.destroy(
+				product?.image?.public_id,
+			);
+		}
 		return NextResponse.json({ success: true });
 	} catch (err) {
 		console.log(err);
